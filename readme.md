@@ -1,1 +1,1 @@
-# Catetan buat praktikum SD.
+# Materi buat praktikum SD.
