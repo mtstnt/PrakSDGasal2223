@@ -41,6 +41,62 @@ class AVLTree:
             return self.leftRotate(node)
 
         return node
+    
+    def delete(self, value:int):
+        self.root = self.__delete(self.root, value)
+
+    def __delete(self, node:Node, value:int):
+        #1. BST deletion
+        if not node:
+            return node
+        elif value < node.val:
+            node.left = self.__delete(node.left, value)
+        elif value > node.val:
+            node.right = self.__delete(node.right, value)
+        else: #value == node.val
+            if node.left is None:
+                temp = node.right
+                node = None
+                return temp
+            elif node.right is None:
+                temp = node.left
+                node = None
+                return temp
+            
+            temp = self.getMinValueNode(node.right)
+            node.val = temp.val
+            node.right = self.__delete(node.right, temp.val)
+
+        if node is None:
+            return node   
+            
+        #2. Update level
+        node.level = 1 + max(self.getLevel(node.left), self.getLevel(node.right))
+        #3. Get Balance
+        balance = self.getBalance(node)
+        #4. Balancing
+        #left left
+        if balance > 1 and self.getBalance(node.left) >= 0:
+            return self.rightRotate(node)
+        #right right
+        if balance < -1 and self.getBalance(node.right) <= 0:
+            return self.leftRotate(node)
+        #left right
+        if balance > 1 and self.getBalance(node.left) < 0:
+            node.left = self.leftRotate(node.left)
+            return self.rightRotate(node)
+        #right left
+        if balance < -1 and self.getBalance(node.right) > 0:
+            node.right = self.rightRotate(node.right)
+            return self.leftRotate(node)
+        
+        return node
+
+    def getMinValueNode(self, node:Node):
+        if node is None or node.left is None:
+            return node
+        
+        return self.getMinValueNode(node.left)
 
     def leftRotate(self, a:Node):
         b = a.right
@@ -105,4 +161,6 @@ avl.print()
 avl.insert(50)
 avl.print()
 avl.insert(15)
+avl.print()
+avl.delete(20)
 avl.print()
