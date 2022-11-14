@@ -1,6 +1,4 @@
-from cgitb import small
 import math
-
 
 class MinHeap:
     def __init__(self, initial_values: list[int] = []) -> None:
