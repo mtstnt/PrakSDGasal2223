@@ -26,8 +26,8 @@ class MinHeap:
     def remove(self, value: int) -> None:
         to_delete = self.heap.index(value)
         self.heap.pop(to_delete)
-        self.__min_heapify(0)
-
+        self.__build_min_heap()
+        
     def __len__(self) -> int:
         return len(self.heap)
 
