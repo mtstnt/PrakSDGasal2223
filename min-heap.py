@@ -7,7 +7,11 @@ class MinHeap:
 
     def insert(self, value: int) -> None:
         self.heap.append(value)
-        self.__build_min_heap()
+        current = len(self.heap) - 1
+        while self.heap[current] < self.heap[self.__parent(current)]:
+            parent_idx = self.__parent(current)
+            self.heap[current], self.heap[parent_idx] = self.heap[parent_idx], self.heap[current]
+            current = parent_idx
 
     def get(self) -> int:
         if len(self.heap) == 0:
@@ -74,22 +78,30 @@ class MinHeap:
             # Min heapify lagi ke bawah (cek apakah swap di node atas" ngefek ke urutan di node bawahnya)
             self.__min_heapify(smallest)
 
+    def __parent(self, k: int) -> int:
+        if k == 0: return 0
+        elif k % 2 == 0: return k // 2 - 1
+        else: return k // 2
+
 def main() -> None:
-    heap = MinHeap([0, 9, 3, 4, 2, 1])
+    heap = MinHeap([9])
     heap.print()
     print()
 
-    print(heap.pop())
-    print(heap.pop())
-    print(heap.pop())
-    print(heap.pop())
+    heap.insert(8)
+    heap.insert(6)
+    heap.insert(7)
+    heap.insert(5)
+    heap.insert(2)
+    heap.insert(4)
     print()
 
     heap.insert(2)
     heap.print()
     print()
 
-    heap.remove(9)
+    heap.remove(5)
+    heap.remove(2)
     heap.print()
     print()
 
